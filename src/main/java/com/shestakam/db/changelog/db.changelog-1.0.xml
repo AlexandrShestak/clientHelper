@@ -23,10 +23,10 @@
             <column name="description" type="varchar(3000)">
                 <constraints nullable="false"/>
             </column>
-            <column name="creationDate" type="Date">
+            <column name="creation_date" type="Date">
                 <constraints nullable="false"/>
             </column>
-            <column name="customerName" type="varchar(30)">
+            <column name="customer_name" type="varchar(30)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
