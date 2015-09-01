@@ -25,7 +25,7 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/dispatcherServlet-servlet.xml</param-value>
+        <param-value>/WEB-INF/dispatcherServlet-servlet.xml /WEB-INF/daoContext.xml</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
