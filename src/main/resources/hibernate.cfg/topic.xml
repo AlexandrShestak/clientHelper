@@ -11,6 +11,11 @@
         <property name="name" type="java.lang.String">
             <column name="name" not-null="true"/>
         </property>
+
+        <set name="inquirySet" inverse="true">
+         <!--   <key column="creator_username"-->/>
+            <one-to-many class="com.shestakam.inquiry.entity.Inquiry"/>
+        </set>
     </class>
 
 </hibernate-mapping>

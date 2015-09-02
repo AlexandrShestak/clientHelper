@@ -5,6 +5,7 @@ import com.shestakam.topic.entity.Topic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,8 +23,9 @@ public class TopicController {
         this.topicDao = topicDao;
     }
 
-    @RequestMapping("/topics")
+    @RequestMapping(value = "/topics",method = RequestMethod.GET)
     public List<Topic> getListTopics() {
+        logger.debug("get all topics list");
         return topicDao.getAll();
     }
 }

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
@@ -68,5 +69,31 @@ public class HibernateInquiryDao implements InquiryDao {
         session.update(inquiry);
         session.getTransaction().commit();
         session.close();
+    }
+
+    public void deleteInquiryByCustomerNameAndInquiryId(String customerName,Long inquiryId){
+        logger.debug("delete inquire with id: " + inquiryId + " and customer name :" + customerName);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Inquiry inquiryForDelete = (Inquiry) session.createCriteria(Inquiry.class)
+                .add(Restrictions.like("customerName", customerName))
+                .add(Restrictions.like("id", inquiryId))
+                .list()
+                .get(0);
+        session.delete(inquiryForDelete);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public List<Inquiry> getInquiriesByCustomerName(String customerName) {
+        logger.debug("get inquiries with customer name: " + customerName);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        List<Inquiry> inquiryList =  session.createCriteria(Inquiry.class)
+                .add(Restrictions.like("customerName", customerName))
+                .list();
+        session.getTransaction().commit();
+        session.close();
+        return inquiryList;
     }
 }

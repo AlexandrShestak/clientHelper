@@ -17,6 +17,11 @@
        <property name="customerName" type="java.lang.String">
            <column name="customer_name" length="30" not-null="true"/>
        </property>
+        <many-to-one name="topic" column="inquity_topic" insert="false" update="false"/>
+        <set name="topicAttributeSet" inverse="true" >
+          <!--  <key column="news_id"/>-->
+            <one-to-many class="com.shestakam.inquiry.attribute.entity.TopicAttribute"/>
+        </set>
 
     </class>
 

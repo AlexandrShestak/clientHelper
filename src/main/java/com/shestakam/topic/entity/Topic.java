@@ -1,11 +1,17 @@
 package com.shestakam.topic.entity;
 
+import com.shestakam.inquiry.entity.Inquiry;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by shestakam on 1.9.15.
  */
 public class Topic {
     private Long id;
     private String name;
+    private Set<Inquiry> inquirySet = new HashSet<Inquiry>(0);
 
     public String getName() {
         return name;
@@ -21,5 +27,13 @@ public class Topic {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Set<Inquiry> getInquirySet() {
+        return inquirySet;
+    }
+
+    public void setInquirySet(Set<Inquiry> inquirySet) {
+        this.inquirySet = inquirySet;
     }
 }

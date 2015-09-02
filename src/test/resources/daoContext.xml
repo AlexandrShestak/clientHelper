@@ -20,6 +20,9 @@
     <bean id="topicControllerTest" class="com.shestakam.topic.controller.TopicControllerTest">
         <property name="topicDao" ref="topicDao"/>
     </bean>
+    <bean id="inquiryController" class="com.shestakam.inquiry.controller.InquiryController">
+        <property name="inquiryDao" ref="inquiryDao"/>
+    </bean>
 
 
     <bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
