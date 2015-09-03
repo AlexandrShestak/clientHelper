@@ -96,4 +96,18 @@ public class HibernateInquiryDao implements InquiryDao {
         session.close();
         return inquiryList;
     }
+
+    public Inquiry getInquiryByCustomerNameAndInquiryId(String customerName, Long inquiryId) {
+        logger.debug("delete inquire with id: " + inquiryId + " and customer name :" + customerName);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Inquiry inquiry = (Inquiry)  session.createCriteria(Inquiry.class)
+                .add(Restrictions.like("customerName", customerName))
+                .add(Restrictions.like("id", inquiryId))
+                .list()
+                .get(0);
+        session.getTransaction().commit();
+        session.close();
+        return inquiry;
+    }
 }

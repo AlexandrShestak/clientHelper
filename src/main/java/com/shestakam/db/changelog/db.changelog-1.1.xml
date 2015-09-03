@@ -23,6 +23,15 @@
                           startWith="1"
                           tableName="inquiry"/>
 
+
+        <addAutoIncrement catalogName="clientHelper"
+                          columnDataType="int"
+                          columnName="id"
+                          incrementBy="1"
+                          schemaName="public"
+                          startWith="1"
+                          tableName="attributeOfInquiry"/>
+
     </changeSet>
 
 </databaseChangeLog>

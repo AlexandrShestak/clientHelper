@@ -1,6 +1,6 @@
 package com.shestakam.inquiry.entity;
 
-import com.shestakam.inquiry.attribute.entity.TopicAttribute;
+import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.topic.entity.Topic;
 
 import java.sql.Date;
@@ -16,7 +16,7 @@ public class Inquiry {
     private Date creationDate;
     private String customerName;
     private Topic topic;
-    private Set<TopicAttribute> topicAttributeSet = new HashSet<TopicAttribute>(0);
+    private Set<InquiryAttribute> inquiryAttributeSet = new HashSet<InquiryAttribute>(0);
 
     public Long getId() {
         return id;
@@ -50,12 +50,12 @@ public class Inquiry {
         this.customerName = customerName;
     }
 
-    public Set<TopicAttribute> getTopicAttributeSet() {
-        return topicAttributeSet;
+    public Set<InquiryAttribute> getInquiryAttributeSet() {
+        return inquiryAttributeSet;
     }
 
-    public void setTopicAttributeSet(Set<TopicAttribute> topicAttributeSet) {
-        this.topicAttributeSet = topicAttributeSet;
+    public void setInquiryAttributeSet(Set<InquiryAttribute> inquiryAttributeSet) {
+        this.inquiryAttributeSet = inquiryAttributeSet;
     }
 
     public Topic getTopic() {

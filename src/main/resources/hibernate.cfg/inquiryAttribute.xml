@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.shestakam.inquiry.attribute.entity">
+    <class name="InquiryAttribute" table="attributeOfInquiry">
+
+        <id name="id" column="id" type="java.lang.Long">
+            <generator class="native"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" not-null="true"/>
+        </property>
+
+        <property name="value" type="java.lang.String">
+            <column name="value" not-null="true"/>
+        </property>
+
+        <many-to-one name="inquiryId" column="inquiry_id" class="com.shestakam.topic.entity.Topic" insert="false" update="false"/>
+
+    </class>
+
+</hibernate-mapping>

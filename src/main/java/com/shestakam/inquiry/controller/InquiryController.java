@@ -1,17 +1,16 @@
 package com.shestakam.inquiry.controller;
 
+import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.inquiry.dao.InquiryDao;
 import com.shestakam.inquiry.entity.Inquiry;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import com.shestakam.topic.dao.TopicDao;
+import com.shestakam.topic.entity.Topic;
+import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by shestakam on 2.9.15.
@@ -29,32 +28,44 @@ public class InquiryController {
     public List<Inquiry> getInquiryListForCustomer(@PathVariable String customerName) {
         logger.debug("get all inquiries for customer ");
         List<Inquiry> inquiries = inquiryDao.getInquiriesByCustomerName(customerName);
-        //inquiries = inquiryDao.getInquiryByCustomerName(customerName);
         return inquiries;
     }
 
 
     @RequestMapping(value = "/customers/{customerName}/inquiries/{inquiryId}",method = RequestMethod.GET)
-    public Inquiry getInquiryListForCustomerByInquiryId() {
+    public Inquiry getInquiryListForCustomerByInquiryId(@PathVariable String customerName ,
+                                                        @PathVariable Long inquiryId) {
         logger.debug("get all inquiries for customer by inquiry id");
-        Inquiry inquiries = new Inquiry();
-        //inquiries = inquiryDao.getInquiryByCustomerNameAndInquiryId(customerName);
-        return inquiries;
+        Inquiry inquiry = inquiryDao.getInquiryByCustomerNameAndInquiryId(customerName, inquiryId);
+        return inquiry;
     }
 
     @RequestMapping(value = "/customers/{customerName}/inquiries",method = RequestMethod.POST)
-    public void createInquiry() {
-        logger.debug("create inquiry");
-        List<Inquiry> inquiries = new ArrayList<Inquiry>();
-        //inquiries = inquiryDao.getInquiryByCustomerName(customerName);
+    public void createInquiry(@PathVariable String customerName,
+                              @RequestBody String description,
+                              @RequestBody Topic topic,
+                              @RequestBody Set<InquiryAttribute> attributes ) {
+        logger.debug("create inquiry for customer: " + customerName);
+        Inquiry inquiry = new Inquiry();
+        inquiry.setCustomerName(customerName);
+        inquiry.setCreationDate(new java.sql.Date(System.currentTimeMillis()));
+        inquiry.setDescription(description);
+        inquiry.setTopic(topic);
+        inquiry.setInquiryAttributeSet(attributes);
         return ;
     }
 
     @RequestMapping(value = "/customers/{customerName}/inquiries/{inquiryId}",method = RequestMethod.PUT)
-    public void updateInquiry(@PathVariable String customerName , @PathVariable Long inquiryId) {
+    public void updateInquiry(@PathVariable String customerName ,
+                              @PathVariable Long inquiryId,
+                              @RequestBody String description,
+                              @RequestBody Topic topic,
+                              @RequestBody Set<InquiryAttribute> attributes) {
         logger.debug("update inquiry  with id: " + inquiryId + " and customer: " + customerName);
-        Inquiry inquiries = new Inquiry();
-        //inquiries = inquiryDao.getInquiryByCustomerNameAndInquiryId(customerName);
+        Inquiry inquiry = inquiryDao.getInquiryByCustomerNameAndInquiryId(customerName, inquiryId);
+        inquiry.setDescription(description);
+        inquiry.setTopic(topic);
+        inquiry.getInquiryAttributeSet().addAll(attributes);
         return ;
     }
 

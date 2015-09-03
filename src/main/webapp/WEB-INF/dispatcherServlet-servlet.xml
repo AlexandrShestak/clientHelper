@@ -17,6 +17,15 @@
     <context:component-scan base-package="com.shestakam.topic.controller"/>
     <context:component-scan base-package="com.shestakam.inquiry.controller"/>
 
+    <mvc:annotation-driven >
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="writeAcceptCharset" value="false"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
     <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <!-- Turn off working out content type based on URL file extension, should fall back to looking at the Accept headers -->
         <property name="favorPathExtension" value="false" />

@@ -11,4 +11,5 @@ import java.util.List;
 public interface InquiryDao  extends GenericDao<Inquiry> {
     void deleteInquiryByCustomerNameAndInquiryId(String customerName,Long inquiryId);
     List<Inquiry> getInquiriesByCustomerName(String customerName);
+    Inquiry getInquiryByCustomerNameAndInquiryId(String customerName, Long inquiryId);
 }

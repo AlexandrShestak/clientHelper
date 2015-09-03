@@ -13,8 +13,27 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
     <import resource="daoContext.xml"/>
-    <mvc:annotation-driven />
+    <mvc:annotation-driven >
+      <!--  <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="jacksonObjectMapper" />
+            </bean>
+        </mvc:message-converters>-->
+    </mvc:annotation-driven>
+
+
+
+
     <context:component-scan base-package="com.shestakam.topic.controller"/>
+
+    <mvc:annotation-driven >
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="writeAcceptCharset" value="false"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <!-- Turn off working out content type based on URL file extension, should fall back to looking at the Accept headers -->
@@ -30,6 +49,9 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+
+
+
     <bean id="inquiryDao" class="com.shestakam.inquiry.dao.HibernateInquiryDao">
         <property name="sessionFactory" ref="mySessionFactory"/>
     </bean>
@@ -42,7 +64,17 @@
         <property name="topicDao" ref="topicDao"/>
     </bean>
 
+    <bean id="inquiryController" class="com.shestakam.inquiry.controller.InquiryController">
+        <property name="inquiryDao" ref="inquiryDao"/>
+    </bean>
+
+
     <bean id="topicControllerTest" class="com.shestakam.topic.controller.TopicControllerTest">
+        <property name="topicDao" ref="topicDao"/>
+    </bean>
+
+    <bean id="inquiryControllerTest" class="com.shestakam.inquiry.controller.InquiryControllerTest">
+        <property name="inquiryDao" ref="inquiryDao"/>
         <property name="topicDao" ref="topicDao"/>
     </bean>
 
@@ -58,8 +90,9 @@
         <property name="dataSource" ref="myDataSource"/>
         <property name="mappingResources">
             <list>
-                <value>hibernate.cfg/Inquiry.xml</value>
+                <value>hibernate.cfg/inquiry.xml</value>
                 <value>hibernate.cfg/topic.xml</value>
+                <value>hibernate.cfg/inquiryAttribute.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -68,7 +101,5 @@
             </value>
         </property>
     </bean>
-
-
 
 </beans>

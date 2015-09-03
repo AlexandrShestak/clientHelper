@@ -17,11 +17,18 @@
         <property name="topicDao" ref="topicDao"/>
     </bean>
 
+    <bean id="inquiryController" class="com.shestakam.inquiry.controller.InquiryController">
+        <property name="inquiryDao" ref="inquiryDao"/>
+    </bean>
+
+
     <bean id="topicControllerTest" class="com.shestakam.topic.controller.TopicControllerTest">
         <property name="topicDao" ref="topicDao"/>
     </bean>
-    <bean id="inquiryController" class="com.shestakam.inquiry.controller.InquiryController">
+
+    <bean id="inquiryControllerTest" class="com.shestakam.inquiry.controller.InquiryControllerTest">
         <property name="inquiryDao" ref="inquiryDao"/>
+        <property name="topicDao" ref="topicDao"/>
     </bean>
 
 
@@ -36,8 +43,9 @@
         <property name="dataSource" ref="myDataSource"/>
         <property name="mappingResources">
             <list>
-                <value>hibernate.cfg/Inquiry.xml</value>
+                <value>hibernate.cfg/inquiry.xml</value>
                 <value>hibernate.cfg/topic.xml</value>
+                <value>hibernate.cfg/inquiryAttribute.xml</value>
             </list>
         </property>
         <property name="hibernateProperties">
