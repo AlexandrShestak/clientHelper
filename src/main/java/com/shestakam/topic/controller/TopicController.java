@@ -4,10 +4,13 @@ import com.shestakam.topic.dao.TopicDao;
 import com.shestakam.topic.entity.Topic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -24,10 +27,12 @@ public class TopicController {
     }
 
     @RequestMapping(value = "/topics",method = RequestMethod.GET)
-    public List<Topic> getListTopics() {
+    public String getListTopics() throws IOException {
         logger.debug("get all topics list");
-
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(topicDao.getAll());
         //String sonString = mapper.writeValueAsString(topicDao.getAll);
-        return topicDao.getAll();
+        logger.debug(topicDao.getAll());
+        return jsonString;
     }
 }

@@ -1,6 +1,7 @@
 package com.shestakam.topic.entity;
 
 import com.shestakam.inquiry.entity.Inquiry;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +30,7 @@ public class Topic {
         this.id = id;
     }
 
+    @JsonIgnore
     public Set<Inquiry> getInquirySet() {
         return inquirySet;
     }

@@ -20,7 +20,7 @@
 
         <many-to-one name="topic" column="topic_id"  insert="false" update="false"/>
 
-        <set name="inquiryAttributeSet" inverse="true" lazy="false" fetch="select">
+        <set name="inquiryAttributeSet" inverse="true" fetch="select">
             <key column="inquiry_id"/>
             <one-to-many class="com.shestakam.inquiry.attribute.entity.InquiryAttribute"/>
         </set>

@@ -59,8 +59,6 @@ public class InquiryControllerTest {
     @Autowired
     private TopicDao topicDao;
 
-    private HttpMessageConverter mappingJackson2HttpMessageConverter;
-
     /*@Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
 
@@ -144,14 +142,26 @@ public class InquiryControllerTest {
         this.mockMvc.perform(post("/customers/" + customerName + "/inquiries")
                 .contentType(contentType)
                 .content(jsonString))
-              /*  .content("{\"description\":\"tralalallaallalala\"}"))*/
-               /* .content("{\"description\":\"tralalallaallalala\"}"))*/
-              /*  .content(json(topic))
-                .content(json(attributes))
-                .content(TestUtil.convertObjectToJsonBytes(attributes)))*/
                 .andExpect(status().isOk());
         int sizeAfter =  inquiryDao.getAll().size();
         Assert.assertEquals(sizeBefore+1,sizeAfter);
+    }
+
+    @Test
+    public void updateInquiryTest() throws Exception {
+        Inquiry inquiry = inquiryDao.get(4L);
+        inquiry.setDescription("add unlimited calls for one week");
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(inquiry);
+        int sizeBefore = inquiryDao.getAll().size();
+       /* String topicJson = json(topic);
+        String attributesJson = json(attributes);*/
+        this.mockMvc.perform(put("/customers/" + customerName + "/inquiries/"+2)
+                .contentType(contentType)
+                .content(jsonString))
+                .andExpect(status().isOk());
+        int sizeAfter =  inquiryDao.getAll().size();
+        Assert.assertEquals(sizeBefore,sizeAfter);
     }
 
     @Test
@@ -161,12 +171,9 @@ public class InquiryControllerTest {
     }
 
 
-    protected String json(Object o) throws IOException {
-        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
-        this.mappingJackson2HttpMessageConverter.write(
-                o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
-        return mockHttpOutputMessage.getBodyAsString();
-    }
+
+
+
 
 
 

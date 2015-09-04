@@ -4,11 +4,14 @@ import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.inquiry.dao.InquiryDao;
 import com.shestakam.inquiry.entity.Inquiry;
 import com.shestakam.topic.entity.Topic;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -25,19 +28,24 @@ public class InquiryController {
     }
 
     @RequestMapping(value = "/customers/{customerName}/inquiries",method = RequestMethod.GET)
-    public List<Inquiry> getInquiryListForCustomer(@PathVariable String customerName) {
+    public String getInquiryListForCustomer(@PathVariable String customerName) throws IOException {
         logger.debug("get all inquiries for customer ");
         List<Inquiry> inquiries = inquiryDao.getInquiriesByCustomerName(customerName);
-        return inquiries;
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(inquiries);
+
+        return jsonString;
     }
 
 
     @RequestMapping(value = "/customers/{customerName}/inquiries/{inquiryId}",method = RequestMethod.GET)
-    public Inquiry getInquiryListForCustomerByInquiryId(@PathVariable String customerName ,
-                                                        @PathVariable Long inquiryId) {
+    public String getInquiryListForCustomerByInquiryId(@PathVariable String customerName ,
+                                                        @PathVariable Long inquiryId) throws IOException {
         logger.debug("get all inquiries for customer by inquiry id");
         Inquiry inquiry = inquiryDao.getInquiryByCustomerNameAndInquiryId(customerName, inquiryId);
-        return inquiry;
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(inquiry);
+        return jsonString;
     }
 
     @RequestMapping(value = "/customers/{customerName}/inquiries",method = RequestMethod.POST)

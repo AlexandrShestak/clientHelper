@@ -2,6 +2,7 @@ package com.shestakam.inquiry.entity;
 
 import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.topic.entity.Topic;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -15,7 +16,9 @@ public class Inquiry {
     private String description;
     private Date creationDate;
     private String customerName;
+    @JsonIgnore
     private Topic topic;
+    @JsonIgnore
     private Set<InquiryAttribute> inquiryAttributeSet = new HashSet<InquiryAttribute>(0);
 
     public Long getId() {
