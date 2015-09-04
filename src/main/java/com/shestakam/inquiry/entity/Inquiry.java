@@ -65,4 +65,16 @@ public class Inquiry {
     public void setTopic(Topic topic) {
         this.topic = topic;
     }
+
+    @Override
+    public String toString() {
+        return "Inquiry{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", creationDate=" + creationDate +
+                ", customerName='" + customerName + '\'' +
+                ", topic=" + topic +
+                ", inquiryAttributeSet=" + inquiryAttributeSet +
+                '}';
+    }
 }

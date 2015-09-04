@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * Created by shestakam on 2.9.15.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/dispatcherServlet-servlet.xml"})
+@ContextConfiguration("/dispatcherServlet-servlet.xml")
 /*@SpringApplicationConfiguration(name = "dispatcherServlet-servlet.xml")*/
 @WebAppConfiguration
 public class TopicControllerTest {
@@ -38,6 +38,7 @@ public class TopicControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
     private TopicDao topicDao;
 
 
@@ -54,15 +55,13 @@ public class TopicControllerTest {
     public void getAllTopics() throws Exception {
         mockMvc.perform(get("/topics"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[4].name", is("problems with balance")))
+                .andExpect(jsonPath("$", hasSize(6)))
+                .andExpect(jsonPath("$[4].name", is("remove service")))
                 .andExpect(jsonPath("$[1].name", is("change tariff plan")))
                 .andExpect(jsonPath("$[2].name", is("install a temporary lock")))
-                .andExpect(jsonPath("$[0].name", is("add a service")))
-                .andExpect(jsonPath("$[5].name", is("remove service")))
-                .andExpect(jsonPath("$[3].name", is("forgotten PIN")));
-
-
+                .andExpect(jsonPath("$[0].name", is("problems with balance")))
+                .andExpect(jsonPath("$[5].name", is("forgotten PIN")))
+                .andExpect(jsonPath("$[3].name", is("add a service")));
     }
 
     @Test

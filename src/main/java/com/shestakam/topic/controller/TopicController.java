@@ -26,6 +26,8 @@ public class TopicController {
     @RequestMapping(value = "/topics",method = RequestMethod.GET)
     public List<Topic> getListTopics() {
         logger.debug("get all topics list");
+
+        //String sonString = mapper.writeValueAsString(topicDao.getAll);
         return topicDao.getAll();
     }
 }

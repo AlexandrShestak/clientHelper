@@ -1,50 +1,44 @@
 package com.shestakam.inquiry.controller;
 
-import com.shestakam.TestUtil;
 import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.inquiry.dao.InquiryDao;
+import com.shestakam.inquiry.entity.Inquiry;
 import com.shestakam.topic.dao.TopicDao;
 import com.shestakam.topic.entity.Topic;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 
 /**
  * Created by shestakam on 3.9.15.
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/dispatcherServlet-servlet.xml")
+@ContextConfiguration({"/dispatcherServlet-servlet.xml","/daoContext.xml"})
 /*@SpringApplicationConfiguration(name = "dispatcherServlet-servlet.xml")*/
 @WebAppConfiguration
 public class InquiryControllerTest {
@@ -59,11 +53,23 @@ public class InquiryControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    @Autowired
     private InquiryDao inquiryDao;
 
+    @Autowired
     private TopicDao topicDao;
 
     private HttpMessageConverter mappingJackson2HttpMessageConverter;
+
+    /*@Autowired
+    void setConverters(HttpMessageConverter<?>[] converters) {
+
+        this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream().filter(
+                hmc -> hmc instanceof MappingJackson2HttpMessageConverter).findAny().get();
+
+        Assert.assertNotNull("the JSON message converter must not be null",
+                this.mappingJackson2HttpMessageConverter);
+    }*/
 
    /* @Autowired
     void setConverters(HttpMessageConverter<?>[] converters) {
@@ -116,7 +122,6 @@ public class InquiryControllerTest {
 
     @Test
     public void createInquiryTest() throws Exception{
-
         Topic topic = new Topic();
         topic.setId(1L);
         topic.setName("problems with balance");
@@ -126,20 +131,41 @@ public class InquiryControllerTest {
         inquiryAttribute.setValue("some buggg");
         Set<InquiryAttribute> attributes = new HashSet<>();
         attributes.add(inquiryAttribute);
-
+        Inquiry inquiry = new Inquiry();
+        inquiry.setCustomerName("TratataTatat");
+        inquiry.setDescription("tratattatatata");
+        inquiry.setInquiryAttributeSet(attributes);
+        inquiry.setTopic(topic);
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(inquiry);
+        int sizeBefore = inquiryDao.getAll().size();
        /* String topicJson = json(topic);
         String attributesJson = json(attributes);*/
         this.mockMvc.perform(post("/customers/" + customerName + "/inquiries")
                 .contentType(contentType)
-                .content(TestUtil.convertObjectToJsonBytes(topic))
-                .content(TestUtil.convertObjectToJsonBytes(attributes)))
-                .andExpect(status().isCreated());
+                .content(jsonString))
+              /*  .content("{\"description\":\"tralalallaallalala\"}"))*/
+               /* .content("{\"description\":\"tralalallaallalala\"}"))*/
+              /*  .content(json(topic))
+                .content(json(attributes))
+                .content(TestUtil.convertObjectToJsonBytes(attributes)))*/
+                .andExpect(status().isOk());
+        int sizeAfter =  inquiryDao.getAll().size();
+        Assert.assertEquals(sizeBefore+1,sizeAfter);
     }
 
     @Test
     public void deleteInquiryTest()  throws Exception {
-        this.mockMvc.perform(delete("/customers/"+customerName+"/inquiries/"+2))
+        this.mockMvc.perform(delete("/customers/" + customerName+"/inquiries/"+2))
                 .andExpect(status().isOk());
+    }
+
+
+    protected String json(Object o) throws IOException {
+        MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();
+        this.mappingJackson2HttpMessageConverter.write(
+                o, MediaType.APPLICATION_JSON, mockHttpOutputMessage);
+        return mockHttpOutputMessage.getBodyAsString();
     }
 
 

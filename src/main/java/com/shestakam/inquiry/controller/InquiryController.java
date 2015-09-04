@@ -42,30 +42,34 @@ public class InquiryController {
 
     @RequestMapping(value = "/customers/{customerName}/inquiries",method = RequestMethod.POST)
     public void createInquiry(@PathVariable String customerName,
-                              @RequestBody String description,
+                              @RequestBody Inquiry inquiry
+                             /* @RequestBody String description,
                               @RequestBody Topic topic,
-                              @RequestBody Set<InquiryAttribute> attributes ) {
+                              @RequestBody Set<InquiryAttribute> attributes */) {
         logger.debug("create inquiry for customer: " + customerName);
-        Inquiry inquiry = new Inquiry();
+        inquiry.setCreationDate(new java.sql.Date(System.currentTimeMillis()));
+        inquiryDao.save(inquiry);
+        /*Inquiry inquiry = new Inquiry();
         inquiry.setCustomerName(customerName);
         inquiry.setCreationDate(new java.sql.Date(System.currentTimeMillis()));
         inquiry.setDescription(description);
         inquiry.setTopic(topic);
-        inquiry.setInquiryAttributeSet(attributes);
+        inquiry.setInquiryAttributeSet(attributes);*/
         return ;
     }
 
     @RequestMapping(value = "/customers/{customerName}/inquiries/{inquiryId}",method = RequestMethod.PUT)
     public void updateInquiry(@PathVariable String customerName ,
                               @PathVariable Long inquiryId,
-                              @RequestBody String description,
-                              @RequestBody Topic topic,
-                              @RequestBody Set<InquiryAttribute> attributes) {
-        logger.debug("update inquiry  with id: " + inquiryId + " and customer: " + customerName);
-        Inquiry inquiry = inquiryDao.getInquiryByCustomerNameAndInquiryId(customerName, inquiryId);
-        inquiry.setDescription(description);
-        inquiry.setTopic(topic);
-        inquiry.getInquiryAttributeSet().addAll(attributes);
+                              @RequestBody Inquiry inquiry) {
+        logger.debug("update inquiry  with id: " + inquiry);
+        inquiryDao.update(inquiry);
+
+//        Inquiry inquiry = inquiryDao.getInquiryByCustomerNameAndInquiryId(customerName, inquiryId);
+//        inquiry.setDescription(description);
+//        inquiry.setTopic(topic);
+//        inquiry.getInquiryAttributeSet().addAll(attributes);
+
         return ;
     }
 
