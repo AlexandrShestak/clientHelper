@@ -33,7 +33,6 @@ public class InquiryController {
         List<Inquiry> inquiries = inquiryDao.getInquiriesByCustomerName(customerName);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(inquiries);
-
         return jsonString;
     }
 
@@ -56,13 +55,10 @@ public class InquiryController {
                               @RequestBody Set<InquiryAttribute> attributes */) {
         logger.debug("create inquiry for customer: " + customerName);
         inquiry.setCreationDate(new java.sql.Date(System.currentTimeMillis()));
-        inquiryDao.save(inquiry);
-        /*Inquiry inquiry = new Inquiry();
-        inquiry.setCustomerName(customerName);
-        inquiry.setCreationDate(new java.sql.Date(System.currentTimeMillis()));
-        inquiry.setDescription(description);
-        inquiry.setTopic(topic);
-        inquiry.setInquiryAttributeSet(attributes);*/
+        //inquiryDao.save(inquiry);
+        inquiryDao.saveInquiryWithTopicAndAttributes(inquiry,
+                inquiry.getInquiryAttributeSet(),
+                inquiry.getTopic().getId());
         return ;
     }
 
@@ -72,12 +68,6 @@ public class InquiryController {
                               @RequestBody Inquiry inquiry) {
         logger.debug("update inquiry  with id: " + inquiry);
         inquiryDao.update(inquiry);
-
-//        Inquiry inquiry = inquiryDao.getInquiryByCustomerNameAndInquiryId(customerName, inquiryId);
-//        inquiry.setDescription(description);
-//        inquiry.setTopic(topic);
-//        inquiry.getInquiryAttributeSet().addAll(attributes);
-
         return ;
     }
 

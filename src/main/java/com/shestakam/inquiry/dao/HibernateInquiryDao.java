@@ -1,6 +1,8 @@
 package com.shestakam.inquiry.dao;
 
+import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.inquiry.entity.Inquiry;
+import com.shestakam.topic.entity.Topic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -8,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by shestakam on 1.9.15.
@@ -109,5 +112,29 @@ public class HibernateInquiryDao implements InquiryDao {
         session.getTransaction().commit();
         session.close();
         return inquiry;
+    }
+
+    @Override
+    public void saveInquiryWithTopicAndAttributes(Inquiry inquiry,
+                                                  Set<InquiryAttribute> inquiryAttributes,
+                                                  Long topicId) {
+        logger.debug("save inquiry with topic and attributes");
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(inquiry);
+        Long inquiryId = inquiry.getId();
+        Topic topic = (Topic)  session.get(Topic.class, topicId);
+        inquiry.setTopic(topic);
+        Inquiry inquiry1 = (Inquiry) session.load(Inquiry.class,inquiryId);
+        inquiry1.setTopic(topic);
+        for(InquiryAttribute elem : inquiryAttributes){
+            elem.setInquiryId(inquiryId);
+            session.save(elem);
+        }
+
+        inquiry.setInquiryAttributeSet(inquiryAttributes);
+        session.getTransaction().commit();
+        session.close();
+        return ;
     }
 }

@@ -31,7 +31,6 @@ public class TopicController {
         logger.debug("get all topics list");
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(topicDao.getAll());
-        //String sonString = mapper.writeValueAsString(topicDao.getAll);
         logger.debug(topicDao.getAll());
         return jsonString;
     }

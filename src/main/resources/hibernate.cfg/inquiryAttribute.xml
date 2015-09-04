@@ -17,8 +17,8 @@
             <column name="value" not-null="true"/>
         </property>
 
-        <many-to-one name="inquiryId" column="inquiry_id" class="com.shestakam.topic.entity.Topic" insert="false" update="false"/>
-
+      <!--  <many-to-one name="inquiryId" column="inquiry_id" class="com.shestakam.inquiry.entity.Inquiry" insert="false" update="false"/>
+-->
     </class>
 
 </hibernate-mapping>

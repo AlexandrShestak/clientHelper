@@ -11,14 +11,16 @@ import java.util.Set;
 /**
  * Created by shestakam on 1.9.15.
  */
+
 public class Inquiry {
     private Long id;
     private String description;
     private Date creationDate;
     private String customerName;
-    @JsonIgnore
+
+
     private Topic topic;
-    @JsonIgnore
+
     private Set<InquiryAttribute> inquiryAttributeSet = new HashSet<InquiryAttribute>(0);
 
     public Long getId() {

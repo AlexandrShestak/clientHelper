@@ -12,16 +12,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.mock.http.MockHttpOutputMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.IOException;
+
 import java.nio.charset.Charset;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,7 +38,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/dispatcherServlet-servlet.xml","/daoContext.xml"})
-/*@SpringApplicationConfiguration(name = "dispatcherServlet-servlet.xml")*/
 @WebAppConfiguration
 public class InquiryControllerTest {
 
@@ -58,26 +56,6 @@ public class InquiryControllerTest {
 
     @Autowired
     private TopicDao topicDao;
-
-    /*@Autowired
-    void setConverters(HttpMessageConverter<?>[] converters) {
-
-        this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream().filter(
-                hmc -> hmc instanceof MappingJackson2HttpMessageConverter).findAny().get();
-
-        Assert.assertNotNull("the JSON message converter must not be null",
-                this.mappingJackson2HttpMessageConverter);
-    }*/
-
-   /* @Autowired
-    void setConverters(HttpMessageConverter<?>[] converters) {
-
-        this.mappingJackson2HttpMessageConverter = Arrays.asList(converters).stream().filter(
-                hmc -> hmc instanceof MappingJackson2HttpMessageConverter).findAny().get();
-
-        Assert.assertNotNull("the JSON message converter must not be null",
-                this.mappingJackson2HttpMessageConverter);
-    }*/
 
     @Before
     public void setup() throws Exception {
@@ -109,11 +87,11 @@ public class InquiryControllerTest {
 
     @Test
     public void getInquiryForCustomerByInquiryIdTest() throws Exception {
-        mockMvc.perform(get("/customers/" + customerName + "/inquiries/" + 2))
+        mockMvc.perform(get("/customers/" + customerName + "/inquiries/" + 3))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(2)))
-                .andExpect(jsonPath("$.description", is("change tariff plan from red to extra")))
-                .andExpect(jsonPath("$.creationDate", is("2015-09-12")))
+                .andExpect(jsonPath("$.id", is(3)))
+                .andExpect(jsonPath("$.description", is("install a temporary lock for 3 weeks")))
+                .andExpect(jsonPath("$.creationDate", is("2015-01-12")))
                 .andExpect(jsonPath("$.customerName", is("MigelXoce")));
     }
 
@@ -136,6 +114,7 @@ public class InquiryControllerTest {
         inquiry.setTopic(topic);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(inquiry);
+        String jsonString1 = mapper.writeValueAsString(topic);
         int sizeBefore = inquiryDao.getAll().size();
        /* String topicJson = json(topic);
         String attributesJson = json(attributes);*/
@@ -156,7 +135,7 @@ public class InquiryControllerTest {
         int sizeBefore = inquiryDao.getAll().size();
        /* String topicJson = json(topic);
         String attributesJson = json(attributes);*/
-        this.mockMvc.perform(put("/customers/" + customerName + "/inquiries/"+2)
+        this.mockMvc.perform(put("/customers/" + customerName + "/inquiries/" + 2)
                 .contentType(contentType)
                 .content(jsonString))
                 .andExpect(status().isOk());
@@ -166,7 +145,27 @@ public class InquiryControllerTest {
 
     @Test
     public void deleteInquiryTest()  throws Exception {
-        this.mockMvc.perform(delete("/customers/" + customerName+"/inquiries/"+2))
+        //data to return in previous state after test
+        Topic topic = topicDao.get(2L);
+        Set<InquiryAttribute> attributes = new HashSet<>(0);
+        Inquiry inquiry = new Inquiry();
+        inquiry.setCustomerName("TratataTatat");
+        inquiry.setDescription("change tariff plan from red to extra");
+        inquiry.setCreationDate(Date.valueOf("2015-9-12"));
+        inquiry.setInquiryAttributeSet(attributes);
+        inquiry.setTopic(topic);
+        inquiry.setId(2L);
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(inquiry);
+
+        int sizeBefore = inquiryDao.getAll().size();
+        this.mockMvc.perform(delete("/customers/" + customerName + "/inquiries/" + 2))
+                .andExpect(status().isOk());
+        int sizeAfter = inquiryDao.getAll().size();
+        Assert.assertEquals(sizeBefore - 1, sizeAfter);
+        this.mockMvc.perform(post("/customers/" + customerName + "/inquiries")
+                .contentType(contentType)
+                .content(jsonString))
                 .andExpect(status().isOk());
     }
 
