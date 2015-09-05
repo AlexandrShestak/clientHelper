@@ -130,19 +130,27 @@ public class InquiryControllerTest {
 
     @Test
     public void updateInquiryTest() throws Exception {
-        Inquiry inquiry = inquiryDao.get(4L);
-        inquiry.setDescription("add unlimited calls for one week");
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(inquiry);
+        Inquiry inquiryBefore = inquiryDao.get(4L);
+        //inquiry.setDescription("add unlimited calls for one week");
+        //ObjectMapper mapper = new ObjectMapper();
+        //String jsonString = mapper.writeValueAsString(inquiry);
+        String jsonString = "{\"id\":4,\"description\":\"add unlimited calls for one week\",\"creationDate\":\"2015-06-11\",\"customerName\":\"BarakNigrian\",\"topic\":{\"id\":4,\"name\":\"add a service\"},\"inquiryAttributeSet\":[]}";
         int sizeBefore = inquiryDao.getAll().size();
-       /* String topicJson = json(topic);
-        String attributesJson = json(attributes);*/
         this.mockMvc.perform(put("/customers/" + customerName + "/inquiries/" + 2)
                 .contentType(contentType)
                 .content(jsonString))
                 .andExpect(status().isOk());
         int sizeAfter =  inquiryDao.getAll().size();
-        Assert.assertEquals(sizeBefore,sizeAfter);
+        Assert.assertEquals(sizeBefore, sizeAfter);
+        Inquiry inquiryAfter = inquiryDao.get(4L);
+        Assert.assertEquals("add unlimited calls for one week",inquiryAfter.getDescription());
+
+
+        jsonString = "{\"id\":4,\"description\":\"add unlimited calls\",\"creationDate\":\"2015-06-11\",\"customerName\":\"BarakNigrian\",\"topic\":{\"id\":4,\"name\":\"add a service\"},\"inquiryAttributeSet\":[]}}";
+        this.mockMvc.perform(put("/customers/" + customerName + "/inquiries/" + 2)
+                .contentType(contentType)
+                .content(jsonString))
+                .andExpect(status().isOk());
     }
 
     @Test

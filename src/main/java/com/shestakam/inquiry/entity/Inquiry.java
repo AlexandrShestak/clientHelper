@@ -18,10 +18,9 @@ public class Inquiry {
     private Date creationDate;
     private String customerName;
 
-
+    @JsonIgnore
     private Topic topic;
-
-
+    @JsonIgnore
     private Set<InquiryAttribute> inquiryAttributeSet = new HashSet<InquiryAttribute>(0);
 
     public Long getId() {
@@ -70,17 +69,5 @@ public class Inquiry {
 
     public void setTopic(Topic topic) {
         this.topic = topic;
-    }
-
-    @Override
-    public String toString() {
-        return "Inquiry{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", creationDate=" + creationDate +
-                ", customerName='" + customerName + '\'' +
-                ", topic=" + topic +
-                ", inquiryAttributeSet=" + inquiryAttributeSet +
-                '}';
     }
 }

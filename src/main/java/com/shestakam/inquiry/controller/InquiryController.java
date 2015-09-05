@@ -1,10 +1,7 @@
 package com.shestakam.inquiry.controller;
 
-import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.inquiry.dao.InquiryDao;
 import com.shestakam.inquiry.entity.Inquiry;
-import com.shestakam.topic.entity.Topic;
-import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by shestakam on 2.9.15.
@@ -61,7 +57,7 @@ public class InquiryController {
                               @PathVariable Long inquiryId,
                               @RequestBody Inquiry inquiry) {
         logger.debug("update inquiry  with id: " + inquiry);
-        inquiryDao.update(inquiry);
+        inquiryDao.updateInquiryWithTopicAndAtributes(inquiry);
         return ;
     }
 
