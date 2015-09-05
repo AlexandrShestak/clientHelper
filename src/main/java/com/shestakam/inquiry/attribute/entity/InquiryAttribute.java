@@ -1,5 +1,7 @@
 package com.shestakam.inquiry.attribute.entity;
 
+import com.shestakam.inquiry.entity.Inquiry;
+
 /**
  * Created by shestakam on 1.9.15.
  */
@@ -7,7 +9,7 @@ public class InquiryAttribute {
     private Long id;
     private String name;
     private String value;
-    private Long inquiryId;
+    private Inquiry inquiry;
 
 
     public Long getId() {
@@ -16,6 +18,14 @@ public class InquiryAttribute {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Inquiry getInquiry() {
+        return inquiry;
+    }
+
+    public void setInquiry(Inquiry inquiry) {
+        this.inquiry = inquiry;
     }
 
     public String getValue() {
@@ -34,11 +44,5 @@ public class InquiryAttribute {
         this.name = name;
     }
 
-    public Long getInquiryId() {
-        return inquiryId;
-    }
 
-    public void setInquiryId(Long inquiryId) {
-        this.inquiryId = inquiryId;
-    }
 }

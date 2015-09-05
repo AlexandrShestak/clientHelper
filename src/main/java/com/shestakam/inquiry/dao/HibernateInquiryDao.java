@@ -115,23 +115,19 @@ public class HibernateInquiryDao implements InquiryDao {
     }
 
     @Override
-    public void saveInquiryWithTopicAndAttributes(Inquiry inquiry,
-                                                  Set<InquiryAttribute> inquiryAttributes,
-                                                  Long topicId) {
+    public void saveInquiryWithTopicAndAttributes(Inquiry inquiry) {
         logger.debug("save inquiry with topic and attributes");
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(inquiry);
-        Long inquiryId = inquiry.getId();
+        Long topicId = inquiry.getTopic().getId();
         Topic topic = (Topic)  session.get(Topic.class, topicId);
         inquiry.setTopic(topic);
-        Inquiry inquiry1 = (Inquiry) session.load(Inquiry.class,inquiryId);
-        inquiry1.setTopic(topic);
+        Set<InquiryAttribute> inquiryAttributes = inquiry.getInquiryAttributeSet();
         for(InquiryAttribute elem : inquiryAttributes){
-            elem.setInquiryId(inquiryId);
+            elem.setInquiry(inquiry);
             session.save(elem);
         }
-
         inquiry.setInquiryAttributeSet(inquiryAttributes);
         session.getTransaction().commit();
         session.close();

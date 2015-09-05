@@ -18,7 +18,9 @@
            <column name="customer_name" length="30" not-null="true"/>
        </property>
 
-        <many-to-one name="topic" column="topic_id"  insert="false" update="false"/>
+        <many-to-one name="topic" class="com.shestakam.topic.entity.Topic">
+            <column name="topic_id"/>
+        </many-to-one>
 
         <set name="inquiryAttributeSet" inverse="true" fetch="select">
             <key column="inquiry_id"/>

@@ -49,16 +49,11 @@ public class InquiryController {
 
     @RequestMapping(value = "/customers/{customerName}/inquiries",method = RequestMethod.POST)
     public void createInquiry(@PathVariable String customerName,
-                              @RequestBody Inquiry inquiry
-                             /* @RequestBody String description,
-                              @RequestBody Topic topic,
-                              @RequestBody Set<InquiryAttribute> attributes */) {
+                              @RequestBody Inquiry inquiry) {
         logger.debug("create inquiry for customer: " + customerName);
         inquiry.setCreationDate(new java.sql.Date(System.currentTimeMillis()));
         //inquiryDao.save(inquiry);
-        inquiryDao.saveInquiryWithTopicAndAttributes(inquiry,
-                inquiry.getInquiryAttributeSet(),
-                inquiry.getTopic().getId());
+        inquiryDao.saveInquiryWithTopicAndAttributes(inquiry);
         return ;
     }
 

@@ -21,6 +21,7 @@ public class Inquiry {
 
     private Topic topic;
 
+
     private Set<InquiryAttribute> inquiryAttributeSet = new HashSet<InquiryAttribute>(0);
 
     public Long getId() {

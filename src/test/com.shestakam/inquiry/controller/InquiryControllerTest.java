@@ -113,11 +113,9 @@ public class InquiryControllerTest {
         inquiry.setInquiryAttributeSet(attributes);
         inquiry.setTopic(topic);
         ObjectMapper mapper = new ObjectMapper();
-        String jsonString = mapper.writeValueAsString(inquiry);
-        String jsonString1 = mapper.writeValueAsString(topic);
+        //String jsonString = mapper.writeValueAsString(inquiry);
+        String jsonString = "{\"id\":null,\"description\":\"tratattatatata\",\"creationDate\":null,\"customerName\":\"TratataTatat\",\"topic\":{\"id\":1,\"name\":\"problems with balance\"},\"inquiryAttributeSet\":[{\"id\":1,\"name\":\"bug\",\"value\":\"some buggg\",\"inquiry\":null}]}";
         int sizeBefore = inquiryDao.getAll().size();
-       /* String topicJson = json(topic);
-        String attributesJson = json(attributes);*/
         this.mockMvc.perform(post("/customers/" + customerName + "/inquiries")
                 .contentType(contentType)
                 .content(jsonString))
