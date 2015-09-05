@@ -66,7 +66,7 @@ public class HibernateInquiryDao implements InquiryDao {
     }
 
     public void update(Inquiry inquiry) {
-        logger.debug("update inquiry with id : "+inquiry.getId());
+        logger.debug("update inquiry with id : " + inquiry.getId());
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.update(inquiry);
@@ -78,12 +78,14 @@ public class HibernateInquiryDao implements InquiryDao {
         logger.debug("delete inquire with id: " + inquiryId + " and customer name :" + customerName);
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Inquiry inquiryForDelete = (Inquiry) session.createCriteria(Inquiry.class)
+        List<Inquiry> inquiryList= session.createCriteria(Inquiry.class)
                 .add(Restrictions.like("customerName", customerName))
                 .add(Restrictions.like("id", inquiryId))
-                .list()
-                .get(0);
-        session.delete(inquiryForDelete);
+                .list();
+        if (inquiryList.size() == 0){
+            return;
+        }
+        session.delete(inquiryList.get(0));
         session.getTransaction().commit();
         session.close();
     }
@@ -104,11 +106,14 @@ public class HibernateInquiryDao implements InquiryDao {
         logger.debug("delete inquire with id: " + inquiryId + " and customer name :" + customerName);
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Inquiry inquiry = (Inquiry)  session.createCriteria(Inquiry.class)
+        List<Inquiry> inquiryList =   session.createCriteria(Inquiry.class)
                 .add(Restrictions.like("customerName", customerName))
                 .add(Restrictions.like("id", inquiryId))
-                .list()
-                .get(0);
+                .list();
+        if(inquiryList.size() == 0){
+            return null;
+        }
+        Inquiry inquiry = inquiryList.get(0);
         session.getTransaction().commit();
         session.close();
         return inquiry;
