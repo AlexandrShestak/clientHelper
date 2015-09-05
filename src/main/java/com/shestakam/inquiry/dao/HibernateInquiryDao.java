@@ -133,4 +133,20 @@ public class HibernateInquiryDao implements InquiryDao {
         session.close();
         return ;
     }
+
+    @Override
+    public void deleteInquiryWithAttributes(Long inquiryId) {
+        logger.debug("delete inquiry with attributes");
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Inquiry inquiry = (Inquiry) session.load(Inquiry.class,inquiryId);
+        Set<InquiryAttribute> inquiryAttributes = inquiry.getInquiryAttributeSet();
+        for(InquiryAttribute elem : inquiryAttributes){
+            session.delete(elem);
+        }
+        session.delete(inquiry);
+        session.getTransaction().commit();
+        session.close();
+        return ;
+    }
 }

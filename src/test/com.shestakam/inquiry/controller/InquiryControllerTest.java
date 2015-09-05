@@ -22,6 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.nio.charset.Charset;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -112,7 +113,7 @@ public class InquiryControllerTest {
         inquiry.setDescription("tratattatatata");
         inquiry.setInquiryAttributeSet(attributes);
         inquiry.setTopic(topic);
-        ObjectMapper mapper = new ObjectMapper();
+        //ObjectMapper mapper = new ObjectMapper();
         //String jsonString = mapper.writeValueAsString(inquiry);
         String jsonString = "{\"id\":null,\"description\":\"tratattatatata\",\"creationDate\":null,\"customerName\":\"TratataTatat\",\"topic\":{\"id\":1,\"name\":\"problems with balance\"},\"inquiryAttributeSet\":[{\"id\":1,\"name\":\"bug\",\"value\":\"some buggg\",\"inquiry\":null}]}";
         int sizeBefore = inquiryDao.getAll().size();
@@ -120,7 +121,10 @@ public class InquiryControllerTest {
                 .contentType(contentType)
                 .content(jsonString))
                 .andExpect(status().isOk());
-        int sizeAfter =  inquiryDao.getAll().size();
+        List<Inquiry> inquiryList = inquiryDao.getAll();
+        int sizeAfter =  inquiryList.size();
+        Long inquiryId = inquiryList.get(inquiryList.size()-1).getId();
+        inquiryDao.deleteInquiryWithAttributes(inquiryId);
         Assert.assertEquals(sizeBefore+1,sizeAfter);
     }
 

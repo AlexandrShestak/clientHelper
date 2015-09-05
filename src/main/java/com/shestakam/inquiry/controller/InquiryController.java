@@ -52,7 +52,6 @@ public class InquiryController {
                               @RequestBody Inquiry inquiry) {
         logger.debug("create inquiry for customer: " + customerName);
         inquiry.setCreationDate(new java.sql.Date(System.currentTimeMillis()));
-        //inquiryDao.save(inquiry);
         inquiryDao.saveInquiryWithTopicAndAttributes(inquiry);
         return ;
     }
