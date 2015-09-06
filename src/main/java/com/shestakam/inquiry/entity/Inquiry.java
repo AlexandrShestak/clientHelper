@@ -21,8 +21,8 @@ public class Inquiry {
     private Date creationDate;
     private String customerName;
 
-
     private Topic topic;
+
     @JsonManagedReference
     private Set<InquiryAttribute> inquiryAttributeSet = new HashSet<InquiryAttribute>(0);
 

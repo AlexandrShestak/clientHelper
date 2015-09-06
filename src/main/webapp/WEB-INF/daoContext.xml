@@ -13,13 +13,16 @@
         <property name="sessionFactory" ref="mySessionFactory"/>
     </bean>
 
+    <bean id="hibernateInquiryAttributeDao" class="com.shestakam.inquiry.attribute.dao.HibernateInquiryAttributeDao">
+        <property name="sessionFactory" ref="mySessionFactory"/>
+    </bean>
+
     <bean id="topicController" class="com.shestakam.topic.controller.TopicController">
         <property name="topicDao" ref="topicDao"/>
     </bean>
 
     <bean id="inquiryController" class="com.shestakam.inquiry.controller.InquiryController">
         <property name="inquiryDao" ref="inquiryDao"/>
-
     </bean>
 
 

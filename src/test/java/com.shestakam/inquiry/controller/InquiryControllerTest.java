@@ -118,7 +118,6 @@ public class InquiryControllerTest {
 
     @Test
     public void updateInquiryTest() throws Exception {
-
         Inquiry inquiry = inquiryDao.get(4L);
         inquiry.setDescription("add unlimited calls for one week");
         ObjectMapper mapper = new ObjectMapper();
@@ -145,7 +144,7 @@ public class InquiryControllerTest {
 
     @Test
     public void deleteInquiryTest()  throws Exception {
-        // i don't know how to return in previous state after delete, because id is changed
+        // i don't know how to return in previous state after delete, because id is changed if insert after delete
         //data to return in previous state after test
        /* Inquiry  inquiry = inquiryDao.get(6L);
         ObjectMapper mapper = new ObjectMapper();
