@@ -17,5 +17,5 @@ public interface InquiryDao  extends GenericDao<Inquiry> {
     Inquiry getInquiryByCustomerNameAndInquiryId(String customerName, Long inquiryId);
     void saveInquiryWithTopicAndAttributes(Inquiry inquiry);
     void deleteInquiryWithAttributes(Long inquiryId);
-    void updateInquiryWithTopicAndAtributes(Inquiry inquiry);
+    void updateInquiryWithTopicAndAttributes(Inquiry inquiry);
 }

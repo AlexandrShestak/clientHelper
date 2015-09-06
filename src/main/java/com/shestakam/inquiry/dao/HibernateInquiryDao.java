@@ -156,7 +156,7 @@ public class HibernateInquiryDao implements InquiryDao {
     }
 
     @Override
-    public void updateInquiryWithTopicAndAtributes(Inquiry inquiry) {
+    public void updateInquiryWithTopicAndAttributes(Inquiry inquiry) {
         logger.debug("update inquiry with topic and attributes");
         Topic newTopic = inquiry.getTopic();
         Set<InquiryAttribute> newInquiryAttributes = inquiry.getInquiryAttributeSet();

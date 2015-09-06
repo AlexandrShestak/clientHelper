@@ -57,7 +57,7 @@ public class InquiryController {
                               @PathVariable Long inquiryId,
                               @RequestBody Inquiry inquiry) {
         logger.debug("update inquiry  with id: " + inquiry);
-        inquiryDao.updateInquiryWithTopicAndAtributes(inquiry);
+        inquiryDao.updateInquiryWithTopicAndAttributes(inquiry);
         return ;
     }
 

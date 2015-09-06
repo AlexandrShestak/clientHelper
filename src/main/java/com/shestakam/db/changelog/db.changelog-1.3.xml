@@ -19,6 +19,12 @@
                   tableName="inquiry">
         </loadData>
 
+        <loadData catalogName="clientHelper"
+                  encoding="UTF-8"
+                  file="src/main/java/com/shestakam/db/dbData/inquiryAttribute.csv"
+                  tableName="attributeOfInquiry">
+        </loadData>
+
     </changeSet>
 
 
