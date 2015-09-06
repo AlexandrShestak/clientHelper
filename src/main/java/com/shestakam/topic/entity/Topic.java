@@ -1,5 +1,6 @@
 package com.shestakam.topic.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.shestakam.inquiry.entity.Inquiry;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 public class Topic {
     private Long id;
     private String name;
+
     private Set<Inquiry> inquirySet = new HashSet<Inquiry>(0);
 
     public String getName() {

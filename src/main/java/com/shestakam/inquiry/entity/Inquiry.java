@@ -1,5 +1,6 @@
 package com.shestakam.inquiry.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.topic.entity.Topic;
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -18,9 +19,9 @@ public class Inquiry {
     private Date creationDate;
     private String customerName;
 
-    @JsonIgnore
+
     private Topic topic;
-    @JsonIgnore
+
     private Set<InquiryAttribute> inquiryAttributeSet = new HashSet<InquiryAttribute>(0);
 
     public Long getId() {

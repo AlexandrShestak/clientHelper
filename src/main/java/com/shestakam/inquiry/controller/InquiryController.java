@@ -29,6 +29,7 @@ public class InquiryController {
         List<Inquiry> inquiries = inquiryDao.getInquiriesByCustomerName(customerName);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(inquiries);
+
         return jsonString;
     }
 

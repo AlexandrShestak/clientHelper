@@ -18,11 +18,11 @@
            <column name="customer_name" length="30" not-null="true"/>
        </property>
 
-        <many-to-one name="topic" class="com.shestakam.topic.entity.Topic">
+        <many-to-one name="topic" class="com.shestakam.topic.entity.Topic" lazy="false">
             <column name="topic_id"/>
         </many-to-one>
 
-        <set name="inquiryAttributeSet" inverse="true" fetch="select" lazy="true">
+        <set name="inquiryAttributeSet" inverse="true" fetch="select" lazy="false">
             <key column="inquiry_id"/>
             <one-to-many class="com.shestakam.inquiry.attribute.entity.InquiryAttribute"/>
         </set>
