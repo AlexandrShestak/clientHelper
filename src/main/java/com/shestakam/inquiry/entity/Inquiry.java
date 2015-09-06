@@ -3,7 +3,9 @@ package com.shestakam.inquiry.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.shestakam.inquiry.attribute.entity.InquiryAttribute;
 import com.shestakam.topic.entity.Topic;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -21,7 +23,7 @@ public class Inquiry {
 
 
     private Topic topic;
-
+    @JsonManagedReference
     private Set<InquiryAttribute> inquiryAttributeSet = new HashSet<InquiryAttribute>(0);
 
     public Long getId() {

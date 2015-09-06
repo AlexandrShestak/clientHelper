@@ -1,6 +1,7 @@
 package com.shestakam.inquiry.attribute.entity;
 
 import com.shestakam.inquiry.entity.Inquiry;
+import org.codehaus.jackson.annotate.JsonBackReference;
 
 /**
  * Created by shestakam on 1.9.15.
@@ -9,6 +10,7 @@ public class InquiryAttribute {
     private Long id;
     private String name;
     private String value;
+    @JsonBackReference
     private Inquiry inquiry;
 
 
